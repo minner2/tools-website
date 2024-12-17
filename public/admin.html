@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>添加工具 - IT工具导航</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: 8rem auto 2rem;
+            padding: 2rem;
+            background-color: var(--card-background);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .icon-preview {
+            font-size: 24px;
+            margin-top: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .message {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        [data-theme="dark"] .form-group input,
+        [data-theme="dark"] .form-group select,
+        [data-theme="dark"] .form-group textarea {
+            border-color: #444;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .home-link {
+            text-decoration: none;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            background-color: var(--background-color);
+            transition: all 0.2s ease;
+        }
+
+        .home-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* 添加登录界面样式 */
+        .login-container {
+            max-width: 400px;
+            margin: 8rem auto 2rem;
+            padding: 2rem;
+            background-color: var(--card-background);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .login-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text-color);
+        }
+
+        #loginForm {
+            display: block;
+        }
+
+        #toolFormContainer {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="/images/logo.png" alt="IT工具导航">
+                <span class="logo-text">IT工具导航</span>
+            </div>
+            <div class="nav-actions">
+                <a href="/index.html" class="home-link">
+                    <i class="fas fa-home"></i> 返回主页
+                </a>
+                <div class="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- 登录表单 -->
+        <div id="loginForm" class="login-container">
+            <h2 class="login-title">管理员登录</h2>
+            <div id="loginMessage" class="message"></div>
+            <form id="adminLoginForm">
+                <div class="form-group">
+                    <label for="username">用户名</label>
+                    <input type="text" id="username" name="username" required autocomplete="username">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" id="password" name="password" required autocomplete="current-password">
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">登录</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 工具添加表单（原有的表单容器） -->
+        <div id="toolFormContainer" class="form-container">
+            <div id="message" class="message"></div>
+            <form id="toolForm">
+                <div class="form-group">
+                    <label for="name">工具名称</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="url">网站地址</label>
+                    <input type="url" id="url" name="url" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">工具描述</label>
+                    <textarea id="description" name="description" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">分类</label>
+                    <select id="category" name="category" required>
+                        <option value="">请选择分类</option>
+                        <option value="__new__">+ 添加新分类</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="newCategoryGroup" style="display: none;">
+                    <label for="newCategory">新分类名称</label>
+                    <input type="text" id="newCategory" name="newCategory">
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">返回</button>
+                    <button type="submit" class="btn btn-primary">添加工具</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const loginForm = document.getElementById('adminLoginForm');
+            const toolForm = document.getElementById('toolForm');
+            const toolFormContainer = document.getElementById('toolFormContainer');
+            const loginFormContainer = document.getElementById('loginForm');
+            const loginMessageDiv = document.getElementById('loginMessage');
+            const messageDiv = document.getElementById('message');
+            const iconInput = document.getElementById('icon');
+            const iconPreview = document.getElementById('iconPreview');
+            const themeToggle = document.querySelector('.theme-toggle');
+
+            // 检查是否已登录
+            const isLoggedIn = sessionStorage.getItem('adminLoggedIn');
+            if (isLoggedIn === 'true') {
+                loginFormContainer.style.display = 'none';
+                toolFormContainer.style.display = 'block';
+            }
+
+            // 登录表单提交
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const formData = {
+                    username: loginForm.username.value,
+                    password: loginForm.password.value
+                };
+
+                try {
+                    const response = await fetch('/api/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const result = await response.json();
+                    
+                    if (response.ok) {
+                        sessionStorage.setItem('adminLoggedIn', 'true');
+                        loginFormContainer.style.display = 'none';
+                        toolFormContainer.style.display = 'block';
+                    } else {
+                        loginMessageDiv.className = 'message error';
+                        loginMessageDiv.textContent = '用户名或密码错误';
+                        loginMessageDiv.style.display = 'block';
+                    }
+                } catch (error) {
+                    loginMessageDiv.className = 'message error';
+                    loginMessageDiv.textContent = '登录失败：' + error.message;
+                    loginMessageDiv.style.display = 'block';
+                }
+            });
+
+            // 获取分类选择框
+            const categorySelect = document.getElementById('category');
+            
+            // 加载现有分类
+            async function loadCategories() {
+                try {
+                    const response = await fetch('/api/tools/categories');
+                    const categories = await response.json();
+                    
+                    // 清空现有选项（保留前两个选项：请选择分类和添加新分类）
+                    while (categorySelect.options.length > 2) {
+                        categorySelect.remove(2);
+                    }
+                    
+                    // 添加从服务器获取的分类
+                    categories.forEach(category => {
+                        const option = new Option(category, category);
+                        categorySelect.add(option);
+                    });
+                } catch (error) {
+                    console.error('加载分类失败:', error);
+                }
+            }
+
+            // 页面加载时加载分类
+            await loadCategories();
+
+            // 添加这些代码
+            const newCategoryGroup = document.getElementById('newCategoryGroup');
+            const newCategoryInput = document.getElementById('newCategory');
+
+            // 监听分类选择变化
+            categorySelect.addEventListener('change', (e) => {
+                if (e.target.value === '__new__') {
+                    newCategoryGroup.style.display = 'block';
+                    newCategoryInput.required = true;
+                } else {
+                    newCategoryGroup.style.display = 'none';
+                    newCategoryInput.required = false;
+                }
+            });
+
+            // 修改工具添加表单提交的处理函数
+            toolForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                let category = toolForm.category.value;
+                if (category === '__new__') {
+                    category = toolForm.newCategory.value.trim();
+                    if (!category) {
+                        messageDiv.className = 'message error';
+                        messageDiv.textContent = '请输入新分类名称';
+                        messageDiv.style.display = 'block';
+                        return;
+                    }
+                }
+                
+                const formData = {
+                    name: toolForm.name.value,
+                    url: toolForm.url.value,
+                    description: toolForm.description.value,
+                    category: category
+                };
+
+                try {
+                    const response = await fetch('/api/tools', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const result = await response.json();
+                    
+                    if (response.ok) {
+                        messageDiv.className = 'message success';
+                        messageDiv.textContent = '工具添加成功！';
+                        toolForm.reset();
+                        newCategoryGroup.style.display = 'none';
+                        
+                        // 重新加载分类列表
+                        await loadCategories();
+                    } else {
+                        throw new Error(result.error);
+                    }
+                } catch (error) {
+                    messageDiv.className = 'message error';
+                    messageDiv.textContent = '添加失败：' + error.message;
+                }
+                
+                messageDiv.style.display = 'block';
+                setTimeout(() => {
+                    messageDiv.style.display = 'none';
+                }, 3000);
+            });
+
+            // 保持原有的主题切换功能
+            themeToggle.addEventListener('click', () => {
+                document.body.setAttribute('data-theme',
+                    document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
+                );
+                themeToggle.innerHTML = document.body.getAttribute('data-theme') === 'dark' 
+                    ? '<i class="fas fa-sun"></i>' 
+                    : '<i class="fas fa-moon"></i>';
+            });
+
+            // 保持原有的工具添加功能
+            // ... 原有的代码 ...
+        });
+    </script>
+</body>
+</html> 

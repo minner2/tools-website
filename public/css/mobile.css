@@ -1,0 +1,78 @@
+/* 移动端基础样式 */
+@media screen and (max-width: 768px) {
+    .mobile-view {
+        padding: 10px;
+    }
+    
+    /* 搜索框样式 */
+    .search-container {
+        padding: 10px;
+        width: 100%;
+    }
+    
+    #search {
+        width: 100%;
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+    }
+    
+    /* 分类导航样式 */
+    .category-container {
+        display: flex;
+        overflow-x: auto;  /* 允许横向滚动 */
+        white-space: nowrap;
+        padding: 10px;
+        margin: 0;
+        -webkit-overflow-scrolling: touch;  /* iOS 滚动优化 */
+        scrollbar-width: none;  /* 隐藏滚动条 */
+    }
+    
+    .category-container::-webkit-scrollbar {
+        display: none;  /* 隐藏滚动条 */
+    }
+    
+    .category-btn {
+        flex: 0 0 auto;  /* 防止按钮被压缩 */
+        padding: 8px 16px;
+        margin-right: 8px;
+        white-space: nowrap;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 20px;  /* 圆角按钮 */
+        background: #fff;
+    }
+    
+    .category-btn.active {
+        background: #007bff;
+        color: white;
+        border-color: #0056b3;
+    }
+    
+    /* 工具网格样式 */
+    .tools-grid {
+        display: grid;
+        grid-template-columns: 1fr;  /* 移动端单列显示 */
+        gap: 10px;
+        padding: 10px;
+    }
+    
+    .tool-card {
+        background: #fff;
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    /* 导航控制按钮移动端样式 */
+    .nav-controls {
+        gap: 5px;
+    }
+    
+    .theme-toggle,
+    .back-to-top {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+} 
